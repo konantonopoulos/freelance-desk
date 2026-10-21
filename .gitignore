@@ -1,0 +1,31 @@
+# Dependencies and build output
+/node_modules
+/dist
+/.angular
+/coverage
+/.cache
+*.tsbuildinfo
+
+# Environment, credentials and local data
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+*.local.json
+
+# Editor and operating system
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+npm-debug.log*

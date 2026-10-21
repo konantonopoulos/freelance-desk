@@ -1,0 +1,53 @@
+<section class="page">
+  <div class="page-header">
+    <div><div class="eyebrow">MY FREELANCE WORK</div><h1 class="page-title">Overview</h1>
+      <p class="page-subtitle">Hours and earnings across my projects.</p></div>
+    <a class="btn btn-primary" routerLink="/work-log">+ Log work hours</a>
+  </div>
+
+  <div class="stats-grid">
+    <article class="metric surface"><div class="metric-top"><span>Total gross earnings</span><span class="metric-icon">€</span></div>
+      <div class="metric-value">{{ store.earningsCents() / 100 | currency:'EUR':'symbol':'1.2-2' }}</div>
+      <p>Calculated from logged work, not payments received</p></article>
+    <article class="metric surface"><div class="metric-top"><span>Hours logged</span><span class="metric-icon">◷</span></div>
+      <div class="metric-value">{{ store.minutes() / 60 | number:'1.0-2' }} <small>hrs</small></div>
+      <p>Across all projects and dates</p></article>
+    <article class="metric surface"><div class="metric-top"><span>Active projects</span><span class="metric-icon">▦</span></div>
+      <div class="metric-value">{{ store.projectCount() }}</div>
+      <p>Projects currently accepting work entries</p></article>
+  </div>
+
+  @if (!store.hasData()) {
+    <div class="welcome surface">
+      <div class="welcome-symbol">✳</div>
+      <div><div class="eyebrow">NO DATA YET</div><h2>Start by adding a project</h2>
+        <p>Add a project to log some work, or load sample entries to try things out.</p>
+        <div class="welcome-actions"><a routerLink="/projects" class="btn btn-primary">Create a project</a>
+          <button class="btn btn-secondary" type="button" (click)="store.loadDemo()">Load sample data</button></div>
+      </div>
+    </div>
+  }
+
+  <div class="lower-grid">
+    <section class="surface">
+      <div class="section-heading"><h2>Recent work</h2><a routerLink="/work-log">View all →</a></div>
+      @if (recentEntries().length === 0) {
+        <div class="empty"><h3>No work entries yet</h3><p>Entries you add will appear here.</p></div>
+      } @else {
+        <div class="table-wrap"><table><thead><tr><th>Project</th><th>Date</th><th>Time</th><th>Gross</th></tr></thead>
+          <tbody>@for (entry of recentEntries(); track entry.id) {
+            <tr><td class="strong-cell">{{ store.projectName(entry.projectId) }}</td>
+              <td>{{ entry.date }}</td><td>{{ entry.durationMinutes / 60 | number:'1.0-2' }} h</td>
+              <td class="amount">{{ earnings(entry) | currency:'EUR' }}</td></tr>
+          }</tbody></table></div>
+      }
+    </section>
+    <aside class="next-steps surface"><div class="eyebrow">COMING LATER</div><h2>What I want to add next</h2>
+      <p>Payment tracking, business expenses, reports and tax estimates are still on my list. The backend will come later too.</p>
+      <div class="mini-divider"></div>
+      <p class="privacy"><span>●</span> All information stays in this browser's local storage.</p>
+      <div class="roadmap-hint">See ROADMAP.md in the repository for planned work.</div>
+    </aside>
+  </div>
+  <p class="page-note">Earnings shown here are estimates before tax, fees or payment adjustments. They are not a tax calculation or a record of cash received.</p>
+</section>

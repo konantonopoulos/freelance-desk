@@ -1,0 +1,36 @@
+<section class="page">
+  <div class="page-header"><div><div class="eyebrow">ORGANIZE YOUR WORK</div><h1 class="page-title">Projects</h1>
+    <p class="page-subtitle">Keep your freelance projects and their hourly rates in one place.</p></div>
+    <button class="btn btn-primary" type="button" (click)="showForm = !showForm; error = ''">{{ showForm ? 'Close form' : '+ New project' }}</button></div>
+
+  @if (showForm) {
+    <section class="surface form-card editor"><h2>Add a project</h2><p>Use a simple name that helps you recognize the work. Avoid confidential client details.</p>
+      <form #projectForm="ngForm" (ngSubmit)="create(projectForm)">
+        <div class="form-grid"><label class="form-field">Project name
+          <input type="text" name="projectName" [(ngModel)]="draft.name" required maxlength="70" placeholder="e.g. Sample Website" /></label>
+          <label class="form-field">Hourly rate (EUR)
+            <input type="number" name="hourlyRate" [(ngModel)]="draft.hourlyRateEur" required min="0" max="100000" step="0.01" /></label></div>
+        @if (error) { <p class="error" role="alert">{{ error }}</p> }
+        <div class="form-actions"><button class="btn btn-ghost" type="button" (click)="showForm = false">Cancel</button>
+          <button class="btn btn-primary" type="submit" [disabled]="projectForm.invalid">Save project</button></div>
+      </form>
+    </section>
+  }
+
+  <section class="surface"><div class="section-heading"><h2>All projects <span class="count">{{ store.projects().length }}</span></h2>
+    <a routerLink="/work-log">Log work →</a></div>
+    @if (store.projects().length === 0) {
+      <div class="empty"><h3>No projects yet</h3><p>Add your first project to start recording work sessions.</p>
+        <button type="button" class="btn btn-secondary" (click)="showForm = true">Add first project</button></div>
+    } @else {
+      <div class="table-wrap"><table><thead><tr><th>Project name</th><th>Hourly rate</th><th>Status</th><th>Action</th></tr></thead><tbody>
+        @for (project of store.projects(); track project.id) {
+          <tr><td class="project-name"><span class="project-avatar">{{ project.name.slice(0,1).toUpperCase() }}</span>{{ project.name }}</td>
+            <td>{{ project.hourlyRateEur | currency:'EUR' }} / hour</td>
+            <td><span class="tag" [class.muted-tag]="project.status === 'archived'">{{ project.status === 'active' ? 'Active' : 'Archived' }}</span></td>
+            <td><button type="button" class="inline-button" (click)="store.toggleProjectStatus(project.id)">{{ project.status === 'active' ? 'Archive' : 'Restore' }}</button></td></tr>
+        }</tbody></table></div>
+    }
+  </section>
+  <p class="page-note">Archiving a project hides it from the work-entry form without deleting past work. Editing rates and project details is planned for a later release.</p>
+</section>

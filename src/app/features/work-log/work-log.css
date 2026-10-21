@@ -1,0 +1,86 @@
+.no-projects {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding: 22px;
+  margin-bottom: 20px;
+}
+
+.no-projects h3 {
+  font-size: 15px;
+  margin: 0 0 5px;
+}
+
+.no-projects p {
+  font-size: 12px;
+  color: #879489;
+  margin: 0;
+}
+
+.editor {
+  margin-bottom: 20px;
+}
+
+.editor h2 {
+  font-size: 16px;
+  margin-bottom: 22px;
+}
+
+.work-name {
+  min-width: 180px;
+}
+
+.work-name b {
+  color: #344e3e;
+  font-size: 13px;
+}
+
+.work-name small {
+  display: block;
+  color: #9ba89b;
+  margin-top: 6px;
+  font-size: 11px;
+}
+
+.date {
+  white-space: nowrap;
+}
+
+.earnings {
+  color: #287b55;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.table-note {
+  font-size: 11px;
+  color: #a2aaa2;
+}
+
+.count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  color: #2c7859;
+  background: #e9f4ed;
+  font-size: 12px;
+  border-radius: 6px;
+  margin-left: 5px;
+  padding: 0 5px;
+}
+
+.error {
+  color: #b14d46;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+@media (max-width:650px) {
+  .no-projects {
+    align-items: start;
+    flex-direction: column;
+  }
+}

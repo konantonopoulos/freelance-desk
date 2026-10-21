@@ -1,0 +1,46 @@
+<section class="page">
+  <div class="page-header"><div><div class="eyebrow">TIME & ACTIVITY</div><h1 class="page-title">Work log</h1>
+    <p class="page-subtitle">Record time spent on projects. Gross earnings use each session's hourly rate.</p></div>
+    <button type="button" class="btn btn-primary" [disabled]="store.activeProjects().length === 0" (click)="showForm = !showForm; error = ''">{{ showForm ? 'Close form' : '+ Add work entry' }}</button></div>
+
+  @if (store.activeProjects().length === 0) {
+    <section class="no-projects surface"><h3>Start with an active project</h3><p>You need an active project before you can log time.</p>
+      <a routerLink="/projects" class="btn btn-secondary">Manage projects →</a></section>
+  }
+
+  @if (showForm && store.activeProjects().length > 0) {
+    <section class="surface form-card editor"><h2>Log work</h2>
+      <form #workForm="ngForm" (ngSubmit)="add(workForm)">
+        <div class="form-grid"><label class="form-field">Project
+          <select name="projectId" [(ngModel)]="draft.projectId" required>
+            <option value="" disabled>Choose an active project</option>
+            @for (project of store.activeProjects(); track project.id) { <option [value]="project.id">{{ project.name }} ({{ project.hourlyRateEur | currency:'EUR' }}/h)</option> }
+          </select></label>
+          <label class="form-field">Work date
+            <input type="date" name="date" [(ngModel)]="draft.date" required [max]="today" /></label>
+          <label class="form-field">Hours worked
+            <input type="number" name="hours" [(ngModel)]="draft.hours" required min="0.02" max="24" step="any" /></label>
+          <label class="form-field">Notes (optional)
+            <input name="note" [(ngModel)]="draft.note" maxlength="300" placeholder="e.g. Fixed mobile layout" /></label></div>
+        @if (error) { <p class="error" role="alert">{{ error }}</p> }
+        <div class="form-actions"><button type="button" class="btn btn-ghost" (click)="showForm = false">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="workForm.invalid">Save work entry</button></div>
+      </form>
+    </section>
+  }
+
+  <section class="surface"><div class="section-heading"><h2>Recorded sessions <span class="count">{{ store.entries().length }}</span></h2><span class="table-note">Newest first</span></div>
+    @if (store.entries().length === 0) {
+      <div class="empty"><h3>Nothing logged yet</h3><p>Record a session to see the time and estimated earnings here.</p></div>
+    } @else {
+      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Project / note</th><th>Hours</th><th>Hourly rate</th><th>Gross earnings</th></tr></thead>
+        <tbody>@for (entry of store.entries(); track entry.id) {
+          <tr><td class="date">{{ entry.date }}</td><td class="work-name"><b>{{ store.projectName(entry.projectId) }}</b>
+              @if (entry.note) { <small>{{ entry.note }}</small> }</td>
+            <td>{{ entry.durationMinutes / 60 | number:'1.0-2' }} h</td>
+            <td>{{ entry.hourlyRateEur | currency:'EUR' }}</td><td class="earnings">{{ earnings(entry) | currency:'EUR' }}</td></tr>
+        }</tbody></table></div>
+    }
+  </section>
+  <p class="page-note">Work entries can be added in v0.1. Editing, deleting, payment matching and reporting are planned for later versions. Rates are saved with each entry.</p>
+</section>

@@ -1,0 +1,32 @@
+<div class="shell">
+  <aside class="sidebar" aria-label="Main navigation">
+    <a class="brand" routerLink="/overview" aria-label="FreelanceDesk home">
+      <span class="brand-mark">F<span class="brand-dot">.</span></span>
+      <span>Freelance<span class="brand-em">Desk</span><small>Work tracker</small></span>
+    </a>
+
+    <div class="nav-heading">WORKSPACE</div>
+    <nav class="nav-links" aria-label="Workspace pages">
+      <a routerLink="/overview" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"><span aria-hidden="true">◫</span> Overview</a>
+      <a routerLink="/projects" routerLinkActive="active"><span aria-hidden="true">▦</span> Projects</a>
+      <a routerLink="/work-log" routerLinkActive="active"><span aria-hidden="true">◷</span> Work log</a>
+    </nav>
+
+    <div class="nav-heading future-heading">PLANNED</div>
+    <div class="future-link">Payments, expenses and taxes</div>
+
+    <div class="sidebar-bottom">
+      <div class="local-badge"><span class="status-dot"></span> Browser storage</div>
+      <p>Records are saved in this browser, not on a server.</p>
+      <span class="version">Version 0.1.0</span>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    @if (store.storageError()) {
+      <p class="storage-warning" role="alert">Your browser could not save these changes. They may disappear when you refresh the page.</p>
+    }
+    <div class="topbar"><span class="crumb">MY PROJECTS <span>/</span> FREELANCEDESK</span><span class="top-pill">Local app</span></div>
+    <router-outlet />
+  </main>
+</div>
