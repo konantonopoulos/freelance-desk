@@ -23,10 +23,12 @@
       <div class="empty"><h3>No projects yet</h3><p>Add your first project to start recording work sessions.</p>
         <button type="button" class="btn btn-secondary" (click)="showForm = true">Add first project</button></div>
     } @else {
-      <div class="table-wrap"><table><thead><tr><th>Project name</th><th>Hourly rate</th><th>Status</th><th>Action</th></tr></thead><tbody>
+      <div class="table-wrap"><table><thead><tr><th>Project name</th><th>Hourly rate</th><th>Logged hours</th><th>Gross earnings</th><th>Status</th><th>Action</th></tr></thead><tbody>
         @for (project of store.projects(); track project.id) {
           <tr><td class="project-name"><span class="project-avatar">{{ project.name.slice(0,1).toUpperCase() }}</span>{{ project.name }}</td>
             <td>{{ project.hourlyRateEur | currency:'EUR' }} / hour</td>
+            <td>{{ (store.totalsByProject().get(project.id)?.minutes ?? 0) / 60 | number:'1.0-2' }} h</td>
+            <td>{{ (store.totalsByProject().get(project.id)?.earningsCents ?? 0) / 100 | currency:'EUR' }}</td>
             <td><span class="tag" [class.muted-tag]="project.status === 'archived'">{{ project.status === 'active' ? 'Active' : 'Archived' }}</span></td>
             <td><button type="button" class="inline-button" (click)="store.toggleProjectStatus(project.id)">{{ project.status === 'active' ? 'Archive' : 'Restore' }}</button></td></tr>
         }</tbody></table></div>

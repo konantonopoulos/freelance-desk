@@ -21,3 +21,17 @@ export function totalEarningsCents(entries: ReadonlyArray<WorkEntry>): number {
 export function totalMinutes(entries: ReadonlyArray<WorkEntry>): number {
   return entries.reduce((sum, entry) => sum + entry.durationMinutes, 0);
 }
+
+export function projectTotals(entries: ReadonlyArray<WorkEntry>): Map<string, { minutes: number; earningsCents: number }> {
+  const totals = new Map<string, { minutes: number; earningsCents: number }>();
+
+  for (const entry of entries) {
+    const current = totals.get(entry.projectId) ?? { minutes: 0, earningsCents: 0 };
+    totals.set(entry.projectId, {
+      minutes: current.minutes + entry.durationMinutes,
+      earningsCents: current.earningsCents + entryEarningsCents(entry),
+    });
+  }
+
+  return totals;
+}

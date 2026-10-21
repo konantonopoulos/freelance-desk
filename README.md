@@ -10,6 +10,7 @@ The app is still at an early stage. The current version covers project managemen
 - Archive projects without losing their work history.
 - Record hours, dates and optional notes against active projects.
 - View logged hours and estimated gross earnings across projects.
+- See logged hours and gross earnings for each project, including archived projects.
 - Load fictional sample data to try the app.
 - Keep data in the browser using `localStorage`.
 

@@ -1,4 +1,4 @@
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -6,7 +6,7 @@ import { FreelanceStore } from '../../core/freelance.store';
 
 @Component({
   selector: 'app-projects', standalone: true,
-  imports: [CurrencyPipe, FormsModule, RouterLink],
+  imports: [CurrencyPipe, DecimalPipe, FormsModule, RouterLink],
   templateUrl: './projects.html', styleUrl: './projects.css',
 })
 export class Projects {

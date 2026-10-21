@@ -1,5 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { hoursToMinutes, totalEarningsCents, totalMinutes } from './calculations';
+import { hoursToMinutes, projectTotals, totalEarningsCents, totalMinutes } from './calculations';
 import { DEMO_DATA } from './demo-data';
 import { FreelanceData, FreelanceProject, WorkEntry } from './models';
 
@@ -41,6 +41,7 @@ export class FreelanceStore {
   readonly projectCount = computed(() => this.activeProjects().length);
   readonly minutes = computed(() => totalMinutes(this.entries()));
   readonly earningsCents = computed(() => totalEarningsCents(this.entries()));
+  readonly totalsByProject = computed(() => projectTotals(this.entries()));
   readonly hasData = computed(() => this.projects().length > 0 || this.entries().length > 0);
 
   createProject(name: string, hourlyRateEur: number): void {
